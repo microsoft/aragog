@@ -1,0 +1,6 @@
+GROUPBY (srcIp)
+~
+(. @ ANY)*
+(event_type == BLOCK, $a == srcIp) @ ANY
+((event_type != ALLOW, srcIp != $a) @ ANY)*
+(event_type == NEW, srcIp == $a) @ ANY

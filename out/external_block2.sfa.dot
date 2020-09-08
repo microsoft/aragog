@@ -1,0 +1,20 @@
+digraph external_block2.sfa{
+ rankdir=LR;
+0[label=0]
+1[label=1]
+2[label=2]
+XX2 [color=white, label=""]3[label=3]
+4[label=4,peripheries=2]
+6[label=6]
+7[label=7,peripheries=2]
+8[label=8]
+XX2 -> 2
+0 -> 1 [label="true"]
+1 -> 2 [label="&#949;"]
+2 -> 8 [label="&#949;"]
+2 -> 0 [label="&#949;"]
+3 -> 4 [label="(and (= event_type 1) (= srcIp |"10.10.5.1"|))"]
+6 -> 7 [label="(and (= event_type 1) (= srcIp |"10.10.5.2"|))"]
+8 -> 3 [label="&#949;"]
+8 -> 6 [label="&#949;"]
+}

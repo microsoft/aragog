@@ -1,0 +1,9 @@
+[submodule "generateSFA/symbolicautomata"]
+	path = generateSFA/symbolicautomata
+	url = https://github.com/vinlnx/symbolicautomata.git
+[submodule "generateSFA/z3"]
+	path = generateSFA/z3
+	url = https://github.com/Z3Prover/z3.git
+[submodule "cppkafka"]
+	path = cppkafka
+	url = https://github.com/mfontanini/cppkafka

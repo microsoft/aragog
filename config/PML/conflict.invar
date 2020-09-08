@@ -1,0 +1,5 @@
+GROUPBY (src)
+~
+(. @ ANY)*
+(type == "promise", VAR_n == dst) @ X
+(type == "acknowledgement", dst != VAR_n) @ X

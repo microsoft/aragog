@@ -1,0 +1,31 @@
+{
+    "fields": [
+        {"time" : 4},
+        {"event_type" : 1},
+        {"transport_protocol" : 1},
+        {"flow_state" : 1},
+        {"srcIp" : 4},
+        {"dstIp" : 4},
+        {"srcL4Port": 2},
+        {"dstL4Port" : 2},
+        {"location" : 1}
+    ],
+    "constants" : {
+        "UNKNOWN" : 0,
+        "NEW" : 1,
+        "UPDATE" : 2,
+        "DESTROY" : 3,
+        "BLOCK" : 4,
+        "ALLOW" : 5,
+
+        "SYN_SENT" : 11,
+        "SYN_RECV" : 12,
+        "ESTABLISHED" : 13,
+        "FIN_WAIT" : 14,
+        "CLOSE_WAIT" : 15,
+        "LAST_ACK" : 16,
+        "TIME_WAIT" : 17,
+        "CLOSED" : 18,
+        "LISTEN" : 19
+    }
+}

@@ -1,0 +1,50 @@
+*nat
+:PREROUTING ACCEPT [0:0]
+:INPUT ACCEPT [0:0]
+:OUTPUT ACCEPT [0:0]
+:POSTROUTING ACCEPT [0:0]
+-A POSTROUTING -d 10.10.4.0/24 -j SNAT --to-source 10.10.4.100
+-A POSTROUTING -d 10.10.5.0/24 -j SNAT --to-source 10.10.5.100
+COMMIT
+*filter
+:INPUT DROP [0:0]
+:FORWARD DROP [0:0]
+:OUTPUT ACCEPT [0:0]
+:LOGGING - [0:0]
+# Accept any traffic on the loopback interface.
+-A INPUT -i lo -j ACCEPT
+# Accept any traffic on the internet interface.
+-A INPUT -i enp1s0 -j ACCEPT
+-A FORWARD -i enp1s0 -j ACCEPT
+# Accept any traffic destined for this server that's part of an already-tracked connection.
+-A INPUT -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+# Accept any multicast VRRP traffic destined for 224.0.0.0/8 (this is how keepalived communicates).
+-A INPUT -d 224.0.0.0/8 -p vrrp -j ACCEPT
+# Accept any multicast traffic destined for 225.0.0.50 (this is how conntrackd communicates).
+-A INPUT -d 225.0.0.50 -j ACCEPT
+# Accept any traffic on the interface with the direct connection between routers.
+-A INPUT -s 10.10.1.0/24 -j ACCEPT
+-A INPUT -s 10.10.1.0/24 -j ACCEPT
+# Jump to the LOGGING chain.
+-A INPUT -j LOGGING
+# Accept any traffic for systems behind the NAT that's part of an already-tracked connection.
+-A FORWARD -m conntrack --ctstate RELATED,ESTABLISHED -j ACCEPT
+# Allow outbound connections from systems behind the NAT.
+-A FORWARD -s 10.10.1.0/24 -d 10.10.4.0/24 -m conntrack --ctstate NEW -j ACCEPT
+-A FORWARD -s 10.10.1.0/24 -d 10.10.5.0/24 -m conntrack --ctstate NEW -j ACCEPT
+# Allow any outbound traffic on the loopback interface.
+-A OUTPUT -o lo -j ACCEPT
+# Allow outbound multicast VRRP traffic destined for 224.0.0.0/8 (this is how keepalived communicates).
+-A OUTPUT -d 224.0.0.0/8 -p vrrp -j ACCEPT
+# Allow outbound multicast traffic destined for 225.0.0.50/8 (this is how conntrackd communicates).
+-A OUTPUT -d 225.0.0.50 -j ACCEPT
+# Allow outbound traffic on WAN interface
+-A OUTPUT -d 10.10.4.0/24 -j ACCEPT
+-A OUTPUT -d 10.10.5.0/24 -j ACCEPT
+# Allow any outbound traffic on the interface with the direct connection between routers.
+# -A OUTPUT -s 10.10.1.0/24 -j ACCEPT
+# -A OUTPUT -s 10.10.1.0/24 -j ACCEPT
+# Log (to syslog) any traffic that's going to be dropped with a limit of 2 entries per minute.
+-A LOGGING -m limit --limit 2/min -j LOG --log-prefix "DROP: " --log-level 7
+COMMIT
+

@@ -1,0 +1,25 @@
+digraph block_ip.sfa{
+ rankdir=LR;
+0[label=0]
+1[label=1]
+2[label=2]
+XX2 [color=white, label=""]3[label=3]
+4[label=4]
+5[label=5]
+6[label=6]
+7[label=7]
+8[label=8]
+9[label=9,peripheries=2]
+XX2 -> 2
+0 -> 1 [label="true"]
+1 -> 2 [label="&#949;"]
+2 -> 0 [label="&#949;"]
+2 -> 3 [label="&#949;"]
+3 -> 4 [label="(and (= event_type 4) (= $a srcIp))"]
+4 -> 7 [label="&#949;"]
+5 -> 6 [label="(and (not (= event_type 5)) (not (= srcIp $a)))"]
+6 -> 7 [label="&#949;"]
+7 -> 5 [label="&#949;"]
+7 -> 8 [label="&#949;"]
+8 -> 9 [label="(and (= event_type 1) (= srcIp $a))"]
+}

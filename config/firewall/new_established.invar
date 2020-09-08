@@ -1,0 +1,5 @@
+FILTER(event_type == NEW && flow_state == ESTABLISHED)
+GROUPBY (srcIp, dstIp, srcL4Port, dstL4Port, transport_protocol)
+~
+(. @ ANY)*
+(event_type == NEW, flow_state == ESTABLISHED) @ ANY

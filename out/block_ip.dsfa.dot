@@ -1,0 +1,47 @@
+digraph block_ip.dsfa{
+ rankdir=LR;
+0[label=0]
+XX0 [color=white, label=""]1[label=1]
+2[label=2,peripheries=2]
+XX0 -> 0
+0 -> 0 [label="(not (and (= event_type 4) (= $a srcIp)))"]
+0 -> 1 [label="(and (= event_type 4) (= $a srcIp))"]
+1 -> 2 [label="(let ((a!1 (not (and (not (= event_type 5)) (not (= srcIp $a))))))
+(let ((a!2 (and (not (and (= event_type 4) (= $a srcIp)))
+                a!1
+                (= event_type 1)
+                (= srcIp $a)))
+      (a!3 (and (not (and (= event_type 4) (= $a srcIp)))
+                (= event_type 1)
+                (= srcIp $a)
+                a!1)))
+  (or a!2 a!3)))"]
+1 -> 0 [label="(let ((a!1 (not (and (not (= event_type 5)) (not (= srcIp $a))))))
+(let ((a!2 (and (not (and (= event_type 4) (= $a srcIp)))
+                (not (and (= event_type 1) (= srcIp $a)))
+                a!1))
+      (a!3 (and (not (and (= event_type 4) (= $a srcIp)))
+                a!1
+                (not (and (= event_type 1) (= srcIp $a))))))
+  (or a!2 a!3)))"]
+1 -> 1 [label="(let ((a!1 (not (and (not (= event_type 5)) (not (= srcIp $a)))))
+      (a!3 (and (not (and (= event_type 4) (= $a srcIp)))
+                (not (and (= event_type 1) (= srcIp $a)))
+                (not (= event_type 5))
+                (not (= srcIp $a))))
+      (a!4 (and (not (and (= event_type 4) (= $a srcIp)))
+                (not (= event_type 5))
+                (not (= srcIp $a))
+                (not (and (= event_type 1) (= srcIp $a))))))
+(let ((a!2 (and (= event_type 4)
+                (= $a srcIp)
+                a!1
+                (not (and (= event_type 1) (= srcIp $a)))))
+      (a!5 (and (= event_type 4)
+                (= $a srcIp)
+                (not (and (= event_type 1) (= srcIp $a)))
+                a!1)))
+  (or a!2 a!3 a!4 a!5)))"]
+2 -> 0 [label="(not (and (= event_type 4) (= $a srcIp)))"]
+2 -> 1 [label="(and (= event_type 4) (= $a srcIp))"]
+}

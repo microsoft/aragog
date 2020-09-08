@@ -1,0 +1,16 @@
+FILTER(
+    type == "recover" ||
+    type == "recovered"
+) ~
+(. @ ANY)*
+(type == recover, VAR_a == l1, VAR_c == l2, VAR_e == l3, VAR_x == src) @ X
+(type == recover, VAR_b == l1, VAR_d == l2, VAR_f == l3, VAR_y == src) @ X
+CHOICE (
+    (type == recover, l1 < VAR_a) @ X,
+    (type == recover, l1 < VAR_b) @ X,
+    (type == recover, l2 < VAR_c) @ X,
+    (type == recover, l2 < VAR_d) @ X,
+    (type == recover, l3 < VAR_e) @ X,
+    (type == recover, l3 < VAR_f) @ X
+)
+(type == recovered) @ X

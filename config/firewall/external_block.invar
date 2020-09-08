@@ -1,0 +1,8 @@
+FILTER(event_type == NEW && (srcIp == "10.10.4.1" || srcIp == "10.10.4.2"))
+GROUPBY (srcIp)
+~
+(. @ ANY)*
+CHOICE (
+(event_type == NEW, srcIp == "10.10.4.1") @ ANY,
+(event_type == NEW, srcIp == "10.10.4.2") @ ANY
+)

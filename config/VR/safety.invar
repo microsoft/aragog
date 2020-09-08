@@ -1,0 +1,9 @@
+FILTER(
+    type == "doviewchange" ||
+    type == "prepareok"
+)
+GROUPBY (src)
+~
+(. @ ANY)*
+(type == "doviewchange", VAR_v == v) @ X
+(type == "prepareok", v < VAR_v) @ X
