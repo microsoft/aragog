@@ -62,7 +62,7 @@ cd ../
 
 This code was mainly written by: 
 
-Nofel Yaseen and Vincent Liu and the authors of the OSDI 2020 paper:Scalable Runtime Verification of Distributed Middleboxes
+Nofel Yaseen and Vincent Liu 
  
 
 
