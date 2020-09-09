@@ -56,6 +56,11 @@ cd ../
 1. Implement support for MAP
 1. Add support for timers in language.
 1. Think about firewall topology and invariants.
+
+
+This code was mainly written by: 
+
+Nofel Yaseen and Vincent Liu and the authors of the OSDI 2020 paper:Scalable Runtime Verification of Distributed Middleboxes
  
 
 
