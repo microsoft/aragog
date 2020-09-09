@@ -34,7 +34,7 @@ Select APT UTAH as the cluster and finish.
 Wait for the experiment to get ready.
 
 ``` 
-git clone --recurse-submodules https://github.com/NofelYaseen/MBVerifier.git
+git clone --recurse-submodules https://github.com/microsoft/aaragog.git
 cd MBVerifier
 ./install.sh
 cd generateSFA
