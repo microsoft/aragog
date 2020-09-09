@@ -26,9 +26,9 @@ cd
 wget https://ftp.wayne.edu/apache/kafka/2.5.0/kafka_2.12-2.5.0.tgz
 tar -xzf kafka_2.12-2.5.0.tgz
 
-git clone --recurse-submodules https://github.com/NofelYaseen/MBVerifier.git
+git clone --recurse-submodules https://github.com/microsoft/aaragog.git
 
-cd MBVerifier/verification
+cd aaragog/verification
 mvn clean package
 
 cd

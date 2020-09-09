@@ -30,21 +30,21 @@ echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo deb
 
 sudo apt install -y iptables-persistent
 sudo apt install -y conntrack conntrackd keepalived
-git clone --recurse-submodules https://github.com/NofelYaseen/MBVerifier.git
+git clone --recurse-submodules https://github.com/microsoft/aaragog.git
 
 sudo cp /usr/share/doc/conntrackd/examples/sync/primary-backup.sh /etc/conntrackd/
 
-cd $HOME/MBVerifier/C++Verifier/
+cd $HOME/aaragog/C++Verifier/
 
 ./setup.sh
 
 make
 
-sudo cp $HOME/MBVerifier/firewall/conntrackd.conf /etc/conntrackd/
+sudo cp $HOME/aaragog/firewall/conntrackd.conf /etc/conntrackd/
 
-sudo cp $HOME/MBVerifier/firewall/keepalived.conf /etc/keepalived/
+sudo cp $HOME/aaragog/firewall/keepalived.conf /etc/keepalived/
 
-sudo cp $HOME/MBVerifier/firewall/rules.v4 /etc/iptables/
+sudo cp $HOME/aaragog/firewall/rules.v4 /etc/iptables/
 
 sudo sed -i -e "s/enp1s0/$INT/g" /etc/iptables/rules.v4
 

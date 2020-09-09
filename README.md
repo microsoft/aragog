@@ -7,7 +7,6 @@
 * [Setup](#setup)
 * [Run](#run)
 * [Files](#files)
-* [Todo](#todo)
 * [Timeline](#timeline)
 
 ## Techonologies
@@ -33,29 +32,40 @@ Select APT UTAH as the cluster and finish.
 
 Wait for the experiment to get ready.
 
+### Invariant Compilation
+
+We have already compiled invariants for firewall and put it `out/` folder.  
+
+Invariant compilation was tested on MacOS. For compiling invariants by yourself, please follow these:
 ``` 
 git clone --recurse-submodules https://github.com/microsoft/aaragog.git
 cd aaragog
 ./install.sh
 cd generateSFA
 ./install_z3.sh
+mvn clean package
 ```
+
+Example Compilation:
+```
+cd aaragog/generateSFA
+mvn exec:java -Dexec.args="--packet_format ../out/packetformat.json --invar_file ../config/firewall/new_established.invar"
+```
+
+### Verifier Setup
+Assuming Cloublab is up and running with ssh key in all the servers. Please paste the server list in Setup/servers.txt.
+
+```
+cd Setup
+./setup.sh
+```
+It installs the required software and sets up Apache Flink, Kafka and install the firewall rules accordingly.
 
 ## Run
 ```
-cd generateSFA
-mvn clean install
-mvn exec:java
-cd ../
-./run_verify.sh
+cd runme
+./runme.sh
 ```
-
-### Todo
-1. Find bug in SLB trace
-1. Turn tree duplicate checking in to hashset
-1. Implement support for MAP
-1. Add support for timers in language.
-1. Think about firewall topology and invariants.
 
 
 ### Authors 

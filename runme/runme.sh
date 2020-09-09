@@ -6,7 +6,7 @@ then
     exit 1
 fi
 
-mapfile -t myArray < servers.txt
+mapfile -t myArray < ../Setup/servers.txt
 
 # printf '%s\n' "${myArray[@]}"
 
@@ -18,13 +18,13 @@ if [ $NUMSERVERS -lt 16 ]; then
     exit 1
 fi
 
-ssh ${myArray[12]} "nohup ./MBVerifier/runme/runGlobal.sh"
+ssh ${myArray[12]} "nohup ./aaragog/runme/runGlobal.sh"
 
 sleep 10
 
 for i in 4 5 6 7
 do
-    ssh ${myArray[$i]} "nohup ./MBVerifier/runme/runFirewall.sh $(($i-3)) > /dev/null 2> /dev/null &"
+    ssh ${myArray[$i]} "nohup ./aaragog/runme/runFirewall.sh $(($i-3)) > /dev/null 2> /dev/null &"
 done
 
 for i in 0 1 2 3
@@ -61,6 +61,6 @@ do
     ssh ${myArray[$i]} "sudo killall runFirewall; sudo killall start_background && sudo killall python"
 done
 
-scp ${myArray[12]}:./MBVerifier/out/*.txt .
+scp ${myArray[12]}:./aaragog/out/*.txt .
 
 
