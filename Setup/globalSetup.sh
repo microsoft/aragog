@@ -5,8 +5,8 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
-INT=ifconfig | grep -B1 128.* | grep -o "^\w*"
-LOCAL=ifconfig | grep -B1 10.10 | grep -o "^\w*"
+INT=$(ifconfig | grep -B1 128.* | grep -o "^\w*")
+LOCAL=$(ifconfig | grep -B1 10.10 | grep -o "^\w*")
 
 sudo ifconfig $LOCAL 10.10.1.$1
 
@@ -34,8 +34,10 @@ mvn clean package
 cd
 
 cd kafka_2.12-2.5.0/
-# Change server.properties
-# Change zookeeper properties
 
 sed -i -e s@\#listeners=PLAINTEXT://@listeners=PLAINTEXT://10.10.1.$1@g $HOME/kafka_2.12-2.5.0/config/server.properties
 
+cd 
+
+cd aaragog/runme/
+chmod u+x runGlobal.sh

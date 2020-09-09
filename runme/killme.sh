@@ -18,34 +18,6 @@ if [ $NUMSERVERS -lt 16 ]; then
     exit 1
 fi
 
-ssh ${myArray[12]} "nohup ./aaragog/runme/runGlobal.sh > /dev/null 2> /dev/null &"
-
-sleep 10
-
-for i in 4 5 6 7
-do
-    ssh ${myArray[$i]} "nohup ./aaragog/runme/runFirewall.sh $(($i-3)) > /dev/null 2> /dev/null &"
-done
-
-for i in 0 1 2 3
-do
-    ssh ${myArray[$i]} "cd traffic; sudo nohup ./start_background.sh $i 8 traffic_5e9_ </dev/null >/dev/null 2>&1 &" 
-done
-
-for i in 8 9 10 11
-do
-    ssh ${myArray[$i]} "cd traffic; sudo nohup ./start_background.sh $(($i-4)) 8 traffic_5e9_ </dev/null >/dev/null 2>&1 &" 
-done
-
-sleep 300
-
-for i in 4 5 6 7
-do
-    ssh ${myArray[$i]} "sudo iptables -A FORWARD -s 10.10.4.0/24 -d 10.10.1.0/24 -m conntrack --ctstate NEW -j ACCEPT"
-done
-
-sleep 300
-
 for i in 0 1 2 3
 do
     ssh ${myArray[$i]} "sudo killall socat; sudo killall start_background; sudo killall python; sudo killall python3"
@@ -68,4 +40,4 @@ done
 
 scp ${myArray[12]}:./aaragog/out/*.txt .
 
-
+ssh ${myArray[12]} "cd; cd kafka_2.12-2.5.0/ ; ./bin/kafka-server-stop.sh ; ./bin/zookeeper-server-stop.sh; cd /tmp/ ; sudo rm -r kafka-logs/ ; sudo rm -r zookeeper ; cd ; cd flink-1.9.3/ ; ./bin/stop-cluster.sh ; cd log ; rm *"

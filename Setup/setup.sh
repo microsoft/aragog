@@ -23,6 +23,7 @@ do
     scp internalSetup.sh ${myArray[$i]}:./ 
     ssh ${myArray[$i]} "chmod u+x internalSetup.sh; ./internalSetup.sh $(($i+1))"
     scp ../traffic/* ${myArray[$i]}:./traffic/
+    ssh ${myArray[$i]} "cd traffic; chmod u+x start_background.sh"
 done
 
 for i in 4 5 6 7
@@ -36,6 +37,7 @@ do
     scp externalSetup.sh ${myArray[$i]}:./ 
     ssh ${myArray[$i]} "chmod u+x externalSetup.sh; ./externalSetup.sh 4 $(($i-7))"
     scp ../traffic/* ${myArray[$i]}:./traffic/
+    ssh ${myArray[$i]} "cd traffic; chmod u+x start_background.sh"
 done
 
 for i in 10 11
@@ -43,6 +45,7 @@ do
     scp externalSetup.sh ${myArray[$i]}:./ 
     ssh ${myArray[$i]} "chmod u+x externalSetup.sh; ./externalSetup.sh 5 $(($i-9))"
     scp ../traffic/* ${myArray[$i]}:./traffic/
+    ssh ${myArray[$i]} "cd traffic; chmod u+x start_background.sh"
 done
 
 scp globalSetup.sh ${myArray[12]}:./ 

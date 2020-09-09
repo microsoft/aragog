@@ -206,8 +206,8 @@ def parse_line(line):
             flowList.append('')
     else:
         flow['flow_state'] = "UNKNOWN"
-        flowList.append('')
-        flowList.append('')
+        flowList.append(0)
+        flowList.append('UNKNOWN')
 
     flow['srcIp'] = current_entry[index].split('=')[1]
     index += 1
@@ -219,36 +219,38 @@ def parse_line(line):
 
     
 
-    if flow['proto'] == 'icmp':
-        flow['type'] = int(current_entry[index].split('=')[1])
-        index +=1
-        flowList.append(flow['type'])
+    # if flow['proto'] == 'icmp':
+    #     flow['type'] = int(current_entry[index].split('=')[1])
+    #     index +=1
+    #     flowList.append(flow['type'])
 
-        flow['code'] = int(current_entry[index].split('=')[1])
-        index +=1
-        flowList.append(flow['code'])
+    #     flow['code'] = int(current_entry[index].split('=')[1])
+    #     index +=1
+    #     flowList.append(flow['code'])
 
-        flow['id'] = int(current_entry[index].split('=')[1])
-        index +=1
-        flowList.append(flow['id'])
-    else:
-        flowList.append('')
-        flowList.append('')
-        flowList.append('')
+    #     flow['id'] = int(current_entry[index].split('=')[1])
+    #     index +=1
+    #     flowList.append(flow['id'])
+    # else:
+    #     flowList.append('')
+    #     flowList.append('')
+        # flowList.append('')
 
     if 'sport' in current_entry[index]:
         flow['srcL4Port'] = int(current_entry[index].split('=')[1])
         index +=1
         flowList.append(flow['srcL4Port'])
     else:
-        flowList.append('')
+        flow['srcL4Port'] = 0
+        flowList.append(0)
 
     if 'dport' in current_entry[index]:    
         flow['dstL4Port'] = int(current_entry[index].split('=')[1])
         index +=1
         flowList.append(flow['dstL4Port'])
     else:
-        flowList.append('')
+        flow['dstL4Port'] = 0
+        flowList.append(0)
 
     # if 'REPLIED' in current_entry[index]:
     #     flow['replied'] = current_entry[index][1:-1]

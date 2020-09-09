@@ -1,6 +1,7 @@
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
+Setup/servers.txt
 throughputExp/*.txt
 graphFiles/graphs/
 graphFiles/averageGraphs/

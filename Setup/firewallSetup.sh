@@ -36,6 +36,7 @@ sudo cp /usr/share/doc/conntrackd/examples/sync/primary-backup.sh /etc/conntrack
 
 cd $HOME/aaragog/C++Verifier/
 
+chmod u+x setup.sh
 ./setup.sh
 
 make
@@ -87,5 +88,9 @@ cd /etc/keepalived
 nohup sudo keepalived -l &
 cd /etc/conntrackd
 nohup sudo conntrackd -d &
+
+cd 
+cd aaragog/runme
+chmod u+x runFirewall.sh
 
 wait
