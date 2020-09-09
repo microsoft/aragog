@@ -35,7 +35,7 @@ Wait for the experiment to get ready.
 
 ``` 
 git clone --recurse-submodules https://github.com/microsoft/aaragog.git
-cd MBVerifier
+cd aaragog
 ./install.sh
 cd generateSFA
 ./install_z3.sh
