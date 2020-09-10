@@ -13,6 +13,8 @@ cd $HOME/aaragog/firewall
 
 sudo conntrack -E conntrack -o timestamp | python3 firewallTracker.py $1 &
 
+sleep 5
+
 cd $HOME/aaragog/C++Verifier
 ./build/main.out --filesOrKafka kafka --KafkaAddress 10.10.1.10:9092 --numberOfChannels 4 --inputType socket &
 

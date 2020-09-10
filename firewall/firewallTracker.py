@@ -310,7 +310,7 @@ def parse_line(line):
 
     flowList.append(flow['location'])
 
-    print("flow:\n", flow)
+    # print("flow:\n", flow)
     flowByteForm = [struct.pack("f", flow['time'])]
     # print(flowByteForm)
     flowByteForm.append(struct.pack("B", events_dict[flow['event_type']]))
