@@ -1,5 +1,14 @@
 #!/bin/bash
 
+if [[ $# -ne 1 ]]; then
+    echo "Usage: ./runFirewall.sh <node>"
+    exit 1
+fi
+
+sudo conntrack -F
+
+echo $1
+
 cd $HOME/aaragog/firewall
 
 sudo conntrack -E conntrack -o timestamp | python3 firewallTracker.py $1 &
@@ -13,7 +22,7 @@ python3 measureCpuMem.py $1 &
 
 echo "global started"
 
-sleep 6000
+sleep 600
 pkill -P $$
 
 echo "global ended, terminating programs"

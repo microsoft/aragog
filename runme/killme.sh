@@ -30,7 +30,7 @@ done
 
 for i in 4 5 6 7
 do
-    ssh ${myArray[$i]} "sudo killall runFirewall; sudo killall start_background && sudo killall python; sudo killall python3"
+    ssh ${myArray[$i]} "sudo killall runFirewall; sudo killall start_background && sudo killall python; sudo killall python3 ; cd /tmp ; rm localVerifier.pid"
 done
 
 for i in 4 5 6 7
@@ -38,6 +38,9 @@ do
     ssh ${myArray[$i]} "sudo iptables -D FORWARD -s 10.10.4.0/24 -d 10.10.1.0/24 -m conntrack --ctstate NEW -j ACCEPT"
 done
 
-scp ${myArray[12]}:./aaragog/out/*.txt .
 
 ssh ${myArray[12]} "cd; cd kafka_2.12-2.5.0/ ; ./bin/kafka-server-stop.sh ; ./bin/zookeeper-server-stop.sh; cd /tmp/ ; sudo rm -r kafka-logs/ ; sudo rm -r zookeeper ; cd ; cd flink-1.9.3/ ; ./bin/stop-cluster.sh ; cd log ; rm *"
+
+sleep 10
+
+scp ${myArray[12]}:./aaragog/out/*.txt .

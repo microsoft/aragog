@@ -20,7 +20,7 @@ python3 measureCpuMem.py g &
 
 echo "global started"
 
-sleep 6000
+sleep 600
 pkill -P $$
 
 cd 
