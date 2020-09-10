@@ -6,6 +6,8 @@ if [[ $# -ne 1 ]]; then
 fi
 
 sudo conntrack -F
+sudo kill $(sudo lsof -t -i:10001)
+sudo kill $(sudo lsof -t -i:10000)
 
 echo $1
 
