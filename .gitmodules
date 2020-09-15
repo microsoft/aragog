@@ -6,4 +6,4 @@
 	url = https://github.com/Z3Prover/z3.git
 [submodule "cppkafka"]
 	path = cppkafka
-	url = https://github.com/mfontanini/cppkafka
+	url = https://github.com/mfontanini/cppkafka.git
