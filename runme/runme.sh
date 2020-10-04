@@ -13,7 +13,7 @@ mapfile -t myArray < ../Setup/servers.txt
 NUMSERVERS=${#myArray[@]}
 
 
-if [ $NUMSERVERS -lt 16 ]; then
+if [ $NUMSERVERS -lt 13 ]; then
     echo "Not enough servers"
     exit 1
 fi

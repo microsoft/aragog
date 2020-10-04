@@ -11,6 +11,3 @@ User@Cloudlab.server9
 User@Cloudlab.server10
 User@Cloudlab.server11
 User@Cloudlab.server12
-User@Cloudlab.server13
-User@Cloudlab.server14
-User@Cloudlab.server15
