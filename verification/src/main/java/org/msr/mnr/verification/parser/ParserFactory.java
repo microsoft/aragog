@@ -10,6 +10,8 @@ public class ParserFactory {
             return null;
         } else if(parserType.equalsIgnoreCase("firewall")){
             return new FirewallParser();
+        } else if (parserType.equalsIgnoreCase("generic")){
+            return new GenericParser(configFile, delimiter);
         }
          
         return null;

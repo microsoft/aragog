@@ -209,9 +209,9 @@ inline string convertByteToString(string field, unsigned char data[], int start,
         return to_string((uint16_t) ((data[start+1] << 8) | data[start]));
     } else if (end - start == 4 && (field.find("Ip") != std::string::npos)) {
         return to_string((uint8_t) data[start]) + "." + to_string((uint8_t) data[start+1]) + "." + to_string((uint8_t) data[start+2]) + "." + to_string((uint8_t) data[start+3]);
-    } else if (end - start == 4 && (field.find("time") != std::string::npos)) {
-        float f;
-        unsigned char b[] = {data[start], data[start+1], data[start+2], data[start+3]};
+    } else if (end - start == 8 && (field.find("time") != std::string::npos)) {
+        double f;
+        unsigned char b[] = {data[start], data[start+1], data[start+2], data[start+3], data[start+4], data[start+5], data[start+6], data[start+7]};
         memcpy(&f, b, sizeof(f));
         return to_string(f);
     } else {

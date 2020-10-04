@@ -12,41 +12,50 @@ if [ $1 -gt 8 ] || [ $1 -lt 5 ]; then
     exit 1
 fi
 
-
+# Get interface for port internet traffic
 INT=$(ifconfig | grep -B1 128.* | grep -o "^\w*")
+# Get interface for port communicating locally
 LOCAL=$(ifconfig | grep -B1 10.10 | grep -o "^\w*")
 
+# Update Local IP
 sudo ifconfig $LOCAL 10.10.1.$1
 
+# softwares required for local verifier and measurements.
 sudo apt update
 sudo apt install -y socat
-
 sudo apt install -y python3-pip
 pip3 install psutil
 
+# Automate setup without prompt
 echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections
-
 echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections
 
 sudo apt install -y iptables-persistent
 sudo apt install -y conntrack conntrackd keepalived
+
+# Get the repository
 git clone --recurse-submodules https://github.com/microsoft/aaragog.git
 
+# Get the conntrackd primary-backup setup file
 sudo cp /usr/share/doc/conntrackd/examples/sync/primary-backup.sh /etc/conntrackd/
 
+# Setup and Compile the local verifier
 cd $HOME/aaragog/C++Verifier/
-
 chmod u+x setup.sh
 ./setup.sh
-
 make
 
+# Get the conntrackd configuration file
 sudo cp $HOME/aaragog/firewall/conntrackd.conf /etc/conntrackd/
 
+# Get the keepalived configuration file
 sudo cp $HOME/aaragog/firewall/keepalived.conf /etc/keepalived/
 
+# Get the firewall rules file
 sudo cp $HOME/aaragog/firewall/rules.v4 /etc/iptables/
 
+
+# Automatically replace the internface name in rules and configuration files
 sudo sed -i -e "s/enp1s0/$INT/g" /etc/iptables/rules.v4
 
 sudo sed -i -e s/enp1s0d1/$LOCAL/g /etc/conntrackd/conntrackd.conf
@@ -83,6 +92,7 @@ elif [ $1 -eq 8 ]; then
     sudo sed -i -e s/priority\ P/priority\ 50/g /etc/keepalived/keepalived.conf
 fi
 
+# Install rules
 sudo iptables-restore < /etc/iptables/rules.v4
 cd /etc/keepalived
 nohup sudo keepalived -l &

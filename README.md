@@ -19,7 +19,7 @@
 
 
 ## Setup
-First step is to set up topology at cloudlab. If you do not access Cloudlab. Please reach out to me (Nofel Yaseen). I will add your ssh key to the required machines.
+First step is to set up topology at cloudlab. If you do not access Cloudlab. Please reach out to me (Nofel Yaseen). I will add your ssh key to the required machines. The firewall experiment information can be found at `firewall/README.md`.
 
 ### How to set up cloud lab machines
 First click on experiments and then create experiment profile.
@@ -36,12 +36,10 @@ Wait for the experiment to get ready.
 
 We have already compiled invariants for firewall and put it `out/` folder.  
 
-Invariant compilation was tested on MacOS. For compiling invariants by yourself, please follow these:
+Invariant compilation was tested on MacOS. It requires JDK and maven to run. For compiling invariants by yourself, please follow these:
 ``` 
 git clone --recurse-submodules https://github.com/microsoft/aaragog.git
-cd aaragog
-./install.sh
-cd generateSFA
+cd aaragog/generateSFA
 ./install_z3.sh
 mvn clean package
 ```
@@ -54,19 +52,23 @@ mvn exec:java -Dexec.args="--packet_format ../out/packetformat.json --invar_file
 
 ### Verifier Setup
 Assuming Cloublab is up and running with ssh key in all the servers. Please paste the server list in Setup/servers.txt.
+It can executed at both macOS and Linux. The default bash on macOS is still bash v3, the script need `>= 4`. Please follow the instructions [here](https://www.shell-tips.com/mac/upgrade-bash/)
 
 ```
 cd Setup
 ./setup.sh
 ```
+For experiment details, please see firewall/README.md
+
 It installs the required software and sets up Apache Flink, Kafka and install the firewall rules accordingly.
 
 ## Run
+It can executed at both macOS and Linux. The default bash on macOS is still bash v3, the script need `>= 4`. Please follow the instructions [here](https://www.shell-tips.com/mac/upgrade-bash/)
+To run the firewall experiment:
 ```
 cd runme
 ./runme.sh
 ```
-
 
 ### Authors 
 

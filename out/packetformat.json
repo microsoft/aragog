@@ -1,6 +1,6 @@
 {
     "fields": [
-        {"time" : 4},
+        {"time" : 8},
         {"event_type" : 1},
         {"transport_protocol" : 1},
         {"flow_state" : 1},

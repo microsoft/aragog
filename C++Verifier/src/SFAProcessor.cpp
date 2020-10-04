@@ -13,20 +13,16 @@ class SFAProcessor {
         vector<string> constraintBuffer;
 
         bool processElementSingle(shared_ptr<Packet> & p, int dsfaNum) {
-            // cout << "In single" << endl;
             // Using raw pointer because don't want to remove the dsfa.
             DSFA* dsfa = (&(inv -> dsfas[dsfaNum]));
 
             int currentState;
             try {
-                // cout << "Getting dsfaNum" << dsfaNum << endl;
                 currentState = currentStateMap.at(dsfaNum);
             }
             catch(const std::out_of_range& oor) {
-                // cout << "Excpetion caught" << endl;
                 currentState = dsfa -> startState;
             }
-            // cout << "going in advanceAndCheckSuppress" << endl;
             pair<int, bool> res = dsfa -> advanceAndCheckSuppress(p, currentState);
             
             currentStateMap[dsfaNum] = res.first;
@@ -34,7 +30,6 @@ class SFAProcessor {
         }
 
         bool processElementTree(shared_ptr<Packet> & p, int dsfaNum) {
-            // cout << "In tree" << endl;
             // Using raw pointer because don't want to remove the dsfa.
             DSFA* dsfa = (&(inv -> dsfas[dsfaNum]));
             // If this is a new run, make a fresh tree
@@ -56,7 +51,6 @@ class SFAProcessor {
                 }
             }
 
-            // cout << "going in advanceConstraintTreeAndCheckSuppress" << endl;
             bool suppressible = dsfa -> advanceConstraintTreeAndCheckSuppress(p, constraintBuffer, constraintTreeList);
 
             constraintTreeListMap[dsfaNum] = constraintTreeList;
@@ -70,30 +64,23 @@ class SFAProcessor {
         };
 
         bool processPacket(shared_ptr<Packet> & p) {
-            // cout << "in processPacket" << endl;
             if (inv -> filter != nullptr && (!simplifyEvaluate(inv -> filter,p))) {
-                // cout << "Packet Filtered" << endl;
                 return false;
             }
-            // cout << "Packet allowed to process" << endl;
             bool suppressible = true;
             if (inv -> dsfas.size() == 0) {
-                // cout << "No dsfa so cannot suppress" << endl;
                 suppressible = false;
             }
             for (int dsfaNum = 0; dsfaNum < inv -> dsfas.size(); dsfaNum++) {
                 // Using raw pointer because don't want to remove the dsfa.
                 DSFA* dsfa = (&(inv -> dsfas[dsfaNum]));
-                // cout << "Next step" << endl;
                 if (dsfa -> hasVariables()) {
                     suppressible &= processElementTree(p, dsfaNum);
                 } else {
                     suppressible &= processElementSingle(p, dsfaNum);
                 }
             }
-            // cout << "After processing. Should I suppress?: " << suppressible << endl;
             suppressible &= simplifyEvaluate(inv -> negatedLocExpr,p);
-            // cout << "After Negative filter. Should I suppress?: " << suppressible << endl;
             if (!suppressible) {
                 return true;
             } else {

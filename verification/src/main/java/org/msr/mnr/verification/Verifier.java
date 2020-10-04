@@ -57,16 +57,30 @@ public class Verifier {
         argparser.addArgument("--broker_address").setDefault("localhost:9092").help("IP:Port,... for kafka broker");
         argparser.addArgument("--local_socket_ip").setDefault("localhost").help("IP for reading from a local socket");
         argparser.addArgument("--local_socket_port").setDefault("10000").help("Port for reading from a local socket");
-        argparser.addArgument("--parser").setDefault("firewall").help("Select parser");
+        argparser.addArgument("--parser").setDefault("firewall").help("Select parser from generic or firewall");
+        argparser.addArgument("--delimiter").setDefault("comma").help("Select parser delimiter from comma or semi-colon. Feel free to add more if neccessary");
         argparser.addArgument("--channel_per_invariant").setDefault("10").help("Channel Per Invariant");
         Namespace ns = argparser.parseArgs(args);
 
 
         // Get all execution parameters
         String configDir = ns.getString("config_dir");
-        // String formatFile = configDir + "packetformat.json";
+        String formatFile = configDir + "packetformat.json";
         String outputPath = "file://" + System.getProperty("user.dir") + "/"
                 + ns.getString("out_path");
+
+        String delimiter = "";
+        switch (ns.getString("delimiter")) {
+        case "comma":
+            delimiter = ",";
+            break;
+        case "semicolon":
+            delimiter = ";";
+            break;
+        default:
+            throw new RuntimeException("Unknown delimiter");
+        }
+
 
         String parser = ns.getString("parser");
 
@@ -77,10 +91,10 @@ public class Verifier {
             mode = Mode.LOCAL_FILE;
             break;
         case "LOCAL_FOLDER":
-            mode = Mode.LOCAL_SOCKET;
+            mode = Mode.LOCAL_FOLDER;
             break;
         case "LOCAL_SOCKET":
-            mode = Mode.LOCAL_FOLDER;
+            mode = Mode.LOCAL_SOCKET;
             break;
         case "GLOBAL_KAFKA":
             mode = Mode.GLOBAL_KAFKA;
@@ -96,10 +110,11 @@ public class Verifier {
         }
 
         System.out.println("config directory: " + configDir);
-        // System.out.println("format file: " + formatFile);
+        System.out.println("format file: " + formatFile);
         System.out.println("output folder path: " + outputPath);
         System.out.println("mode: " + mode);
         System.out.println("parser: " + parser);
+        System.out.println("delimiter: " + delimiter);
 
         String inputPath;
         if (mode == Mode.LOCAL_FILE || mode == Mode.STANDALONE_FILE) {
@@ -204,7 +219,7 @@ public class Verifier {
                         // System.out.println("Putting in parsedPacketsDict: " + entry.getKey());
                         parsedPacketsDict.put(entry.getKey(), new ArrayList<DataStream<Packet>>());
                     }
-                    parsedPacketsDict.get(entry.getKey()).add(env.addSource(kafka).flatMap(ParserFactory.createNewParser(parser)));
+                    parsedPacketsDict.get(entry.getKey()).add(env.addSource(kafka).flatMap(ParserFactory.createNewParser(parser, formatFile, delimiter)));
                 }
                 
             }
@@ -230,7 +245,7 @@ public class Verifier {
                 // PacketKeySelector pKeySelector = new PacketKeySelector(filename);
                 sKeySelector.put(filename,new StringKeySelector(filename));
                 parsedPacketsDict.get(invName).add(env.readTextFile(filePath).setParallelism(1).partitionCustom(customPartitioner, sKeySelector.get(filename))
-                    .flatMap(ParserFactory.createNewParser(parser)));
+                    .flatMap(ParserFactory.createNewParser(parser, formatFile, delimiter)));
                 // parsedPacketsDict.get(invName).add(env.readTextFile(filePath).setParallelism(1)
                 //     .flatMap(ParserFactory.createNewParser(parser)));
                 System.out.print(" Adding stream: ");
@@ -238,7 +253,7 @@ public class Verifier {
             }
             System.out.println("Out of loop");
         } else if (mode == Mode.LOCAL_SOCKET) {
-            parsedPackets = env.socketTextStream(ns.getString("local_socket_ip") , Integer.valueOf(ns.getString("local_socket_port"))).setParallelism(1).flatMap(ParserFactory.createNewParser(parser));;
+            parsedPackets = env.socketTextStream(ns.getString("local_socket_ip") , Integer.valueOf(ns.getString("local_socket_port"))).setParallelism(1).flatMap(ParserFactory.createNewParser(parser, formatFile, delimiter));
         } else {
             throw new RuntimeException("Unknown Mode and Data Source: " + mode);
         }

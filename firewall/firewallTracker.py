@@ -123,8 +123,6 @@ def main():
                         # print("Number of bytes: ", len(tempOut))
 
                         local_connection.send(tempOut)
-                        # if (count > 10):
-                        #     sys.exit(0)
 
             elif flag & (select.POLLIN | select.POLLPRI):
 
@@ -217,25 +215,6 @@ def parse_line(line):
     index += 1
     flowList.append(flow['dstIp'])
 
-    
-
-    # if flow['proto'] == 'icmp':
-    #     flow['type'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['type'])
-
-    #     flow['code'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['code'])
-
-    #     flow['id'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['id'])
-    # else:
-    #     flowList.append('')
-    #     flowList.append('')
-        # flowList.append('')
-
     if 'sport' in current_entry[index]:
         flow['srcL4Port'] = int(current_entry[index].split('=')[1])
         index +=1
@@ -252,90 +231,20 @@ def parse_line(line):
         flow['dstL4Port'] = 0
         flowList.append(0)
 
-    # if 'REPLIED' in current_entry[index]:
-    #     flow['replied'] = current_entry[index][1:-1]
-    #     index += 1
-    #     flowList.append(flow['replied'])
-    # else:
-    #     flowList.append('')
-
-    # flow['reverse_src_ip'] = current_entry[index].split('=')[1]
-    # index += 1
-    # flowList.append(flow['reverse_src_ip'])
-
-    # flow['reverse_dst_ip'] = current_entry[index].split('=')[1]
-    # index += 1
-    # flowList.append(flow['reverse_dst_ip'])
-
-    # if flow['proto'] == 'icmp':
-    #     flow['reverse_type'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['reverse_type'])
-
-    #     flow['reverse_code'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['reverse_code'])
-
-    #     flow['reverse_id'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['reverse_id'])
-    # else:
-    #     flowList.append('')
-    #     flowList.append('')
-    #     flowList.append('')
-
-
-    # if index < len(current_entry) and 'sport' in current_entry[index]:
-    #     flow['reverse_src_port'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['reverse_src_port'])
-    # else:
-    #     flowList.append('')
-
-    # if index < len(current_entry) and 'dport' in current_entry[index]:   
-    #     flow['reverse_dst_port'] = int(current_entry[index].split('=')[1])
-    #     index +=1
-    #     flowList.append(flow['reverse_dst_port'])
-    # else:
-    #     flowList.append('')
-
-
-    # if index < len(current_entry) and 'ASSURED' in current_entry[index]:
-    #     flow['assured'] = current_entry[index][1:-1]
-    #     index += 1
-    #     flowList.append(flow['assured'])
-    # else:
-    #     flowList.append('')
     flow['location'] = int(sys.argv[1])
 
     flowList.append(flow['location'])
 
-    # print("flow:\n", flow)
-    flowByteForm = [struct.pack("f", flow['time'])]
-    # print(flowByteForm)
+    flowByteForm = [struct.pack("d", flow['time'])]
     flowByteForm.append(struct.pack("B", events_dict[flow['event_type']]))
-    # print(flowByteForm)
     flowByteForm.append(struct.pack("B", flow['transport_protocol']))
-    # print(flowByteForm)
     flowByteForm.append(struct.pack("B", flow_state_dict[flow['flow_state']]))
-    # print(flowByteForm)
     flowByteForm.append(socket.inet_aton(flow['srcIp']))
-    # print(flowByteForm)
     flowByteForm.append(socket.inet_aton(flow['dstIp']))
-    # print(flowByteForm)
     flowByteForm.append(struct.pack("H", flow['srcL4Port']))
-    # print(flowByteForm)
     flowByteForm.append(struct.pack("H", flow['dstL4Port']))
-    # print(flowByteForm)
-
     flowByteForm.append(struct.pack("B", flow['location']))
-    # print(flowByteForm)
-    # print(b''.join(flowByteForm))
-    # print(len(flowByteForm))
-    # print(len(b''.join(flowByteForm)))
-    # print("Sending out byte form:", flowByteForm)
-    # print("Sending out list form: ", flowList)
-    # sys.exit(0)
+    
     return b''.join(flowByteForm)
     
 def createDict():
