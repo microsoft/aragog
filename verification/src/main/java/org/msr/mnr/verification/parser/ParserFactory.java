@@ -5,7 +5,7 @@ import org.msr.mnr.verification.utils.Packet;
 import org.apache.flink.api.common.functions.FlatMapFunction;
 
 public class ParserFactory {
-    public static FlatMapFunction<String, Packet> createNewParser(String parserType){
+    public static FlatMapFunction<String, Packet> createNewParser(String parserType, String configFile, String delimiter){
         if(parserType == null){
             return null;
         } else if(parserType.equalsIgnoreCase("firewall")){
