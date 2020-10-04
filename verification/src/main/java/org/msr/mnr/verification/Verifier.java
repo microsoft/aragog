@@ -225,7 +225,7 @@ public class Verifier {
             }
         } else if (mode == Mode.STANDALONE_FILE || mode == Mode.LOCAL_FILE) {
             parsedPackets = env.readTextFile(inputPath).setParallelism(1)
-                    .flatMap(ParserFactory.createNewParser(parser)).setParallelism(1);
+                    .flatMap(ParserFactory.createNewParser(parser, formatFile, delimiter)).setParallelism(1);
         } else if (mode == Mode.STANDALONE_FOLDER || mode == Mode.LOCAL_FOLDER) {
             parsedPacketsDict = new HashMap<String, ArrayList<DataStream<Packet>>>();
             File[] inFolder = (new File(inputPath)).listFiles();
