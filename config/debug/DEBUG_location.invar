@@ -1,0 +1,10 @@
+FILTER(
+    event_type == 1 ||
+    event_type == 2
+)
+GROUPBY(srcIp, dstIp, srcL4Port, dstL4Port, transport_protocol)
+~
+(. @ ANY)*
+(event_type == 1) @ X
+((event_type == 2) @ NOT X)*
+(event_type == 1) @ NOT X
