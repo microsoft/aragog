@@ -18,8 +18,8 @@ sudo apt install tshark
 
 Update IPs to make internal and external nodes in seperate networks.
 There are two external networks:  
-10.10.4.0  
-10.10.5.0  
+10.10.4.X  
+10.10.5.X  
 
 ### Firewalls Only
 ```
@@ -86,8 +86,8 @@ cd MBVerifier
 ### Internal nodes
 
 `
-sudo ip route add 10.10.4.0/24 via 10.10.1.100 dev enp3s0f0np0
-sudo ip route add 10.10.5.0/24 via 10.10.1.50 dev enp3s0f0np0
+sudo ip route add 10.10.4.0/24 via 10.10.1.100 dev <INTERFACE>
+sudo ip route add 10.10.5.0/24 via 10.10.1.50 dev <INTERFACE>
 `
 
 You should be able start flows from internal network to external network, but not the other way around.

@@ -45,15 +45,11 @@ public class GenerateLocalSFA {
 
         // Create a local SFA for every named location
         for (IntExpr locExpr : locations.values()) {
-            // System.out.println(locExpr);
             LocalSFA l = new LocalSFA(locExpr);
             l.lsfa = makeLocalSFA(l.stateMapping, originalSFA, locExpr, eventSolver, filter, false);
             localSFAs.add(l);
-            // System.out.println("----------------------");
             LocalSFA lo = new LocalSFA(locExpr, true);
             lo.lsfa = makeLocalSFA(lo.stateMapping, originalSFA, locExpr, eventSolver, filter, true);
-            // System.out.println(lo.lsfa);
-            // System.out.println("----------END------------");
             localSFAs.add(lo);
         }
 
@@ -70,34 +66,18 @@ public class GenerateLocalSFA {
 
         for (Move<BoolExpr, HashMap<String, Integer>> t : originalSFA.getMoves()) {
             SFAInputMove<BoolExpr, HashMap<String, Integer>> im = (SFAInputMove<BoolExpr, HashMap<String, Integer>>) t;
-            // System.out.println()
+            
             if (solver instanceof EventSolver) {
                 EventSolver eventSolver = (EventSolver) solver;
                 if (checklocalPresent(im.guard, location, eventSolver, filter, opposite)) {
                     BoolExpr newGuard = eventSolver.specifyLocation(location, im.guard, opposite);
-                    // if (im.suppressible) {
-                    //     System.out.print("old guardA: ");
-                    //     System.out.println(im.guard);
-                    //     System.out.print("new guardA: ");
-                    //     System.out.println(newGuard);
-
-                    // }
+                
                     newTransitions.add(new SFAInputMove<>(im.from, im.to, newGuard));
                 } else {
-                    // System.out.print("current guardE: ");
-                    // System.out.println(im.guard);
                     BoolExpr newGuard = eventSolver.specifyLocation(location, im.guard, opposite);
-                    // if (im.suppressible) {
-                    //     System.out.print("old guardB: ");
-                    //     System.out.println(im.guard);
-                    //     System.out.print("new guardB: ");
-                    //     System.out.println(newGuard);
-
-                    // }
+                
                     newTransitions.add(new SFAInputMove<>(im.from, im.to, newGuard));
                     newTransitions.add(new SFAEpsilon<>(t.from, t.to));
-                    // System.out.print("new guardE: ");
-                    // System.out.println(newGuard);
                 }
             }
         }
@@ -105,7 +85,7 @@ public class GenerateLocalSFA {
         // Create the DSFA and return its determinized version
         SFA<BoolExpr, HashMap<String, Integer>> localsfa = SFA.MkSFA(newTransitions,
                 originalSFA.getInitialState(), originalSFA.getFinalStates(), solver);
-        // return localsfa.determinize(stateMappingOut, solver);
+        
         return localsfa;
     }
 

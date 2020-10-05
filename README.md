@@ -6,8 +6,7 @@
 * [Technologies](#technologies)
 * [Setup](#setup)
 * [Run](#run)
-* [Files](#files)
-* [Timeline](#timeline)
+* [Authors](#authors)
 
 ## Techonologies
 * JAVA 9.0.4
@@ -19,7 +18,8 @@
 
 
 ## Setup
-First step is to set up topology at cloudlab. If you do not access Cloudlab. Please reach out to me (Nofel Yaseen). I will add your ssh key to the required machines. The firewall experiment information can be found at `firewall/README.md`.
+Below are the instructions to run the firewall experiment. To set up verifier for you own cloud, please refer to `aaragog/Setup/cloudSetup.md`.
+The firewall experiment information can be found at `aaragog/firewall/README.md`. We have automated the setup using scripts, but details can be found in `aaragog/firewall/firewallconf.md`.
 
 ### How to set up cloud lab machines
 First click on experiments and then create experiment profile.
@@ -36,7 +36,7 @@ Wait for the experiment to get ready.
 
 We have already compiled invariants for firewall and put it `out/` folder.  
 
-Invariant compilation was tested on MacOS. It requires JDK and maven to run. For compiling invariants by yourself, please follow these:
+Invariant compilation was tested on MacOS. It requires JDK and maven to run. Instructions to install maven can be found [here](https://maven.apache.org/install.html). For compiling invariants by yourself, please follow these:
 ``` 
 git clone --recurse-submodules https://github.com/microsoft/aaragog.git
 cd aaragog/generateSFA
@@ -70,7 +70,11 @@ cd runme
 ./runme.sh
 ```
 
-### Authors 
+### Output
+
+The output will be `.txt` files. Each file for specific invariant. Each line will show the alerts raised.
+
+## Authors 
 
 This code was mainly written by: 
 

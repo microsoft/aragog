@@ -136,7 +136,7 @@ public class GenerateSFA {
         ArrayList<LocalSFA> localSFAs = GenerateLocalSFA.generateLocalSFAs(sfa,
                 solver.getLocations(), solver, visitor.filter);
         int counter = 0;
-        // System.out.println(localSFAs.size());
+        
         for (LocalSFA l : localSFAs) {
             simplifySFA(l.lsfa);
             System.out.println("-------------------------------");
@@ -160,7 +160,6 @@ public class GenerateSFA {
             } catch (ClassCastException e) {
                 continue;
             }
-            // SFAMove<BoolExpr, B> im = (SFAMove<BoolExpr, B>) m;
             
         }
     }
@@ -181,7 +180,6 @@ public class GenerateSFA {
 
             im.suppressible = true;
 
-            // System.out.println(im.guard);
             // Why are we just looking at im.from in globalSFA? There is no one-to-one mapping.
             for (SFAInputMove<BoolExpr, ?> originalMove : globalSFA.getInputMovesFrom(im.from)) {
                 if (originalMove.suppressible) {
@@ -189,13 +187,6 @@ public class GenerateSFA {
                 }
 
                 BoolExpr locSpecialization = solver.MkEq(solver.getLocationExpr(), locExpr);
-                // if (opposite) {
-                //     locSpecialization = solver.MkNot(locSpecialization);
-                //     System.out.print("local guard: ");
-                //     System.out.println(im.guard);
-                //     System.out.print("original guard: ");
-                //     System.out.println(originalMove.guard);
-                // }
                 BoolExpr test = solver.MkAnd(solver.MkAnd(im.guard, originalMove.guard),
                         locSpecialization);
                 if (solver.IsSatisfiable(test)) {
@@ -203,9 +194,6 @@ public class GenerateSFA {
                     // System.out.println("setting to false");
                     break;
                 } 
-                // else {
-                //     System.out.println("letting it remain true");
-                // }
             }
         }
     }
@@ -275,9 +263,6 @@ public class GenerateSFA {
             }
         }   
 
-        // System.out.print("NOFEL: equal states");
-        // System.out.println(equivalenceSets);
-
         // Set supression flags on everything
         for (Move<BoolExpr, HashMap<String, Integer>> m : sfa.getMoves()) {
             SFAInputMove<BoolExpr, ?> im = (SFAInputMove<BoolExpr, HashMap<String, Integer>>) m;
@@ -313,50 +298,29 @@ public class GenerateSFA {
     }
 
     private static BoolExpr simplifyNegFilter(BoolExpr filter, HashMap<String, HashSet<VarValues>> variableMap, EventSolver solver) {
-        // System.out.println("initial filter: ");
-        // System.out.println(filter);
         if (variableMap.size() == 0) {
-            // System.out.println("After change: ");
-            // System.out.println(filter);
             return filter;
         }
         BoolExpr allExpr = solver.False();
         
         for (String selectedVar : variableMap.keySet()) {
-            // System.out.print("selectedVar: ");
-            // System.out.println(selectedVar);
             for (VarValues val : variableMap.get(selectedVar)) {
-                // System.out.print("Value: ");
-                // System.out.println(val.strValue);
-                // System.out.println("Going in recurseReplace with true");
                 BoolExpr temp = recurseReplace(filter, selectedVar, true, val, solver);
-                // System.out.print("true Output: ");
-                // System.out.println(temp);
                 allExpr = solver.MkOr(allExpr, temp);
-                // System.out.println("Out of recurseReplace with true");
-                // 
-                // System.out.println(allExpr);
                 allExpr = (BoolExpr) allExpr.simplify();
 
                 temp = recurseReplace(filter, selectedVar, false, val, solver);
-                // System.out.print("false Output: ");
-                // System.out.println(temp);
                 allExpr = solver.MkOr(allExpr, temp);
                 allExpr = (BoolExpr) allExpr.simplify();
-                // System.out.print("After false: ");
-                // System.out.println(allExpr);
             }
         }
         
-        // System.out.println("After change: ");
-        // System.out.println(allExpr);
         return allExpr;
     }
 
     private static BoolExpr recurseReplace(BoolExpr filter, String var, boolean flag, VarValues val, EventSolver solver) {
         
         if (filter.isLE() || filter.isLT() || filter.isGT() || filter.isGE()) {
-            // System.out.println("*******Arithmetic Operation. **********");
             if (flag){
                 return solver.True();
             } else {
@@ -373,9 +337,6 @@ public class GenerateSFA {
             value = solver.MkSingleArith(val.strValue);
         }
         Expr[] filterArgs = filter.getArgs();
-
-        // System.out.println(filter);
-        // System.out.println(filterArgs.length);
 
         if (filter.isNot()) {
             return solver.MkNot(recurseReplace((BoolExpr) filterArgs[0], var, flag, val, solver));
@@ -394,11 +355,8 @@ public class GenerateSFA {
         }
 
         if (filter.isEq()) {
-            // System.out.print(" == ");
-            // System.out.println(filterArgs[1]);
             if ((filterArgs[0].equals(variable) && filterArgs[1].equals(value)) || 
                 (filterArgs[1].equals(variable) && filterArgs[0].equals(value))) {
-                // System.out.println("It is a match");
                 if (flag) {
                     return solver.True();
                 } else {
@@ -406,8 +364,6 @@ public class GenerateSFA {
                 }
             }
         } 
-        // System.out.print("No match: ");
-        // System.out.println(filter);
         return filter;
     }
 
