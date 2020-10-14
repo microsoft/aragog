@@ -34,25 +34,25 @@ sudo apt install -y iptables-persistent
 sudo apt install -y conntrack conntrackd keepalived
 
 # Get the repository
-git clone --recurse-submodules https://github.com/microsoft/aaragog.git
+git clone --recurse-submodules https://github.com/microsoft/aragog.git
 
 # Get the conntrackd primary-backup setup file
 sudo cp /usr/share/doc/conntrackd/examples/sync/primary-backup.sh /etc/conntrackd/
 
 # Setup and Compile the local verifier
-cd $HOME/aaragog/C++Verifier/
+cd $HOME/aragog/C++Verifier/
 chmod u+x setup.sh
 ./setup.sh
 make
 
 # Get the conntrackd configuration file
-sudo cp $HOME/aaragog/firewall/conntrackd.conf /etc/conntrackd/
+sudo cp $HOME/aragog/firewall/conntrackd.conf /etc/conntrackd/
 
 # Get the keepalived configuration file
-sudo cp $HOME/aaragog/firewall/keepalived.conf /etc/keepalived/
+sudo cp $HOME/aragog/firewall/keepalived.conf /etc/keepalived/
 
 # Get the firewall rules file
-sudo cp $HOME/aaragog/firewall/rules.v4 /etc/iptables/
+sudo cp $HOME/aragog/firewall/rules.v4 /etc/iptables/
 
 
 # Automatically replace the internface name in rules and configuration files
@@ -100,7 +100,7 @@ cd /etc/conntrackd
 nohup sudo conntrackd -d &
 
 cd 
-cd aaragog/runme
+cd aragog/runme
 chmod u+x runFirewall.sh
 
 wait

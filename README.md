@@ -18,8 +18,8 @@
 
 
 ## Setup
-Below are the instructions to run the firewall experiment. To set up verifier for you own cloud, please refer to `aaragog/Setup/cloudSetup.md`.
-The firewall experiment information can be found at `aaragog/firewall/README.md`. We have automated the setup using scripts, but details can be found in `aaragog/firewall/firewallconf.md`.
+Below are the instructions to run the firewall experiment. To set up verifier for you own cloud, please refer to `aragog/Setup/cloudSetup.md`.
+The firewall experiment information can be found at `aragog/firewall/README.md`. We have automated the setup using scripts, but details can be found in `aragog/firewall/firewallconf.md`.
 
 ### How to set up cloud lab machines
 First click on experiments and then create experiment profile.
@@ -38,15 +38,15 @@ We have already compiled invariants for firewall and put it `out/` folder.
 
 Invariant compilation was tested on MacOS. It requires JDK and maven to run. Instructions to install maven can be found [here](https://maven.apache.org/install.html). For compiling invariants by yourself, please follow these:
 ``` 
-git clone --recurse-submodules https://github.com/microsoft/aaragog.git
-cd aaragog/generateSFA
+git clone --recurse-submodules https://github.com/microsoft/aragog.git
+cd aragog/generateSFA
 ./install_z3.sh
 mvn clean package
 ```
 
 Example Compilation:
 ```
-cd aaragog/generateSFA
+cd aragog/generateSFA
 mvn exec:java -Dexec.args="--packet_format ../out/packetformat.json --invar_file ../config/firewall/new_established.invar"
 ```
 

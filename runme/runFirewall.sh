@@ -11,16 +11,16 @@ sudo kill $(sudo lsof -t -i:10000)
 
 echo $1
 
-cd $HOME/aaragog/firewall
+cd $HOME/aragog/firewall
 
 sudo conntrack -E conntrack -o timestamp | python3 firewallTracker.py $1 &
 
 sleep 5
 
-cd $HOME/aaragog/C++Verifier
+cd $HOME/aragog/C++Verifier
 ./build/main.out --filesOrKafka kafka --KafkaAddress 10.10.1.10:9092 --numberOfChannels 4 --inputType socket &
 
-cd $HOME/aaragog/firewall
+cd $HOME/aragog/firewall
 
 python3 measureCpuMem.py $1 &
 

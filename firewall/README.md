@@ -1,6 +1,6 @@
 # Experiment setup and settings for distributed firewall
 
-The setup file  `aaragog/Setup/setup.sh ` install ip route rules and install the required software on each machine. IP route rules enable us to overlay the topology given below over the star topology. Comments are added to the setup file as well.
+The setup file  `aragog/Setup/setup.sh ` install ip route rules and install the required software on each machine. IP route rules enable us to overlay the topology given below over the star topology. Comments are added to the setup file as well.
 
 After running the setup, Our topology looks like this:
 

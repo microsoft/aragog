@@ -43,4 +43,4 @@ ssh ${myArray[12]} "cd; cd kafka_2.12-2.5.0/ ; ./bin/kafka-server-stop.sh ; ./bi
 
 sleep 10
 
-scp ${myArray[12]}:./aaragog/out/*.txt .
+scp ${myArray[12]}:./aragog/out/*.txt .

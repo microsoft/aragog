@@ -7,5 +7,5 @@ After compilation, there are local and global SFAs generated. Global SFA files e
 
 Some IV specification will not generate local SFA if the violation is not dependent on the location. Section 6.1 gives detail on how the local SFA is generated.
 
-`aaragog/config/debug/DEBUG_location.invar` is an example where local SFA is generated and some local events are suppressed from going to the global verifier.  
-`aaragog/config/firewall/*` do not have local SFA. Only filtering of events happen locally.
+`aragog/config/debug/DEBUG_location.invar` is an example where local SFA is generated and some local events are suppressed from going to the global verifier.  
+`aragog/config/firewall/*` do not have local SFA. Only filtering of events happen locally.

@@ -12,10 +12,10 @@ cd flink-1.9.3
 
 sleep 10
 
-cd $HOME/aaragog
+cd $HOME/aragog
 $HOME/flink-1.9.3/bin/flink run verification/target/verification-0.1.jar --config_dir out/ --out_path out/ --mode GLOBAL_KAFKA --broker_address 10.10.1.10:9092 --channel_per_invariant 1 &
 
-cd $HOME/aaragog/firewall
+cd $HOME/aragog/firewall
 python3 measureCpuMem.py g &
 
 echo "global started"

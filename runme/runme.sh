@@ -18,13 +18,13 @@ if [ $NUMSERVERS -lt 13 ]; then
     exit 1
 fi
 
-ssh ${myArray[12]} "nohup ./aaragog/runme/runGlobal.sh </dev/null >/dev/null 2>&1 &"
+ssh ${myArray[12]} "nohup ./aragog/runme/runGlobal.sh </dev/null >/dev/null 2>&1 &"
 
 sleep 10
 
 for i in 4 5 6 7
 do
-    ssh ${myArray[$i]} "nohup ./aaragog/runme/runFirewall.sh $(($i-3)) </dev/null >/dev/null 2>&1 &"
+    ssh ${myArray[$i]} "nohup ./aragog/runme/runFirewall.sh $(($i-3)) </dev/null >/dev/null 2>&1 &"
 done
 
 for i in 0 1 2 3
@@ -75,6 +75,6 @@ ssh ${myArray[12]} "cd flink-1.9.3/ ; ./bin/stop-cluster.sh"
 
 sleep 10
 
-scp ${myArray[12]}:./aaragog/out/*.txt .
+scp ${myArray[12]}:./aragog/out/*.txt .
 
 

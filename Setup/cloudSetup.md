@@ -2,14 +2,14 @@
 
 Below are the instructions to set up all parts of running the verifier in your own cloud/middlebox:
 
-1. Middlebox config file: Similar to `aaragog/config/firewall/packetformat.json`, define the packet format of the packets exported by the middlebox. Please refer to the section 5.1 for details.
+1. Middlebox config file: Similar to `aragog/config/firewall/packetformat.json`, define the packet format of the packets exported by the middlebox. Please refer to the section 5.1 for details.
 
-1. Invariant Violation (IV) Specifications: Similar to `aaragog/config/firewall/*.invar`, define the IV specifications for the middlebox. Please refer to the section 5.2 for details.
+1. Invariant Violation (IV) Specifications: Similar to `aragog/config/firewall/*.invar`, define the IV specifications for the middlebox. Please refer to the section 5.2 for details.
 
 1. Compile the invariants using generateSFA. Example compilation: 
 
 ```
-cd aaragog/generateSFA
+cd aragog/generateSFA
 mvn exec:java -Dexec.args="--packet_format ../out/packetformat.json --invar_file ../config/firewall/new_established.invar"
 ```
 Arguments in generating the SFA.
@@ -27,8 +27,8 @@ Arguments in generating the SFA.
 4. Compile the local verifer at (or close to) middlbox location. Need to do this for each middlebox location.
 
 ```
-git clone --recurse-submodules https://github.com/microsoft/aaragog.git
-cd $HOME/aaragog/C++Verifier/
+git clone --recurse-submodules https://github.com/microsoft/aragog.git
+cd $HOME/aragog/C++Verifier/
 chmod u+x setup.sh
 ./setup.sh
 make
@@ -90,15 +90,15 @@ cd flink*
 
 Compilation
 ```
-git clone --recurse-submodules https://github.com/microsoft/aaragog.git
-cd aaragog/verification
+git clone --recurse-submodules https://github.com/microsoft/aragog.git
+cd aragog/verification
 mvn clean package
 ```
 Place the compiled invariants and `packetformat.json` in config folder. Default is `out/`.
 Running the global verifier.  
 Example Run:
 ```
-cd aaragog
+cd aragog
 $HOME/flink-*/bin/flink run verification/target/verification-0.1.jar --config_dir out/ --out_path out/ --mode GLOBAL_KAFKA --broker_address 10.10.1.10:9092 --channel_per_invariant 10 
 ```
 
@@ -128,7 +128,7 @@ The global verifier is now running.
 Running the local verifier.  
 Example Run:
 ```
-cd $HOME/aaragog/C++Verifier
+cd $HOME/aragog/C++Verifier
 ./build/main.out --filesOrKafka kafka --KafkaAddress 10.10.1.10:9092 --numberOfChannels 10 --inputType socket &
 ```
 
